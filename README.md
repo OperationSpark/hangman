@@ -42,7 +42,7 @@ Now run the bouncing box application. To be able to open the console correctly y
 
 When you're on the page you should be able to hit <kbd>F12</kbd> and see your messages! Modify the `console.log()` function call above so that you can see the current direction as well.
 
-Let's Make Hangman
+Let's make hangman
 ==================
 
 In order to get experience using the developer tools, and writing more code let's make a simple text-based game. Rather than make an RPG let's make Hangman.
@@ -98,7 +98,7 @@ os install hangman
 
 Now open up the index.html file inside of the hangman folder, this is where you will be working today.
 
-1 - Create a Phrase
+1 - Create a phrase
 -------------------
 
 Let's start really simple. In the Javascript Declare a variable called `phrase`, store any phrase you want inside of it, and output to the console.
@@ -111,7 +111,7 @@ console.log("The secret phrase is", phrase);
 
 Save the file, run the application and view the message in the console.
 
-2 - Display the Phrase as dashes.
+2 - Display the phrase as dashes.
 ---------------------------------
 
 Let's write some code to display the current phrase with dashes.
@@ -155,5 +155,11 @@ console.log("current phrase is", currentPhrase);
 What will this print? Modify the code so that if it's a space it outputs a space, otherwise it outputs a dash.
 
 In order to see what functions are available type `hangman` into the console and hit enter.
+
+3 - Create and export a `guess()` function
+------------------------------------------
+
+4 - Detect when they've won
+---------------------------
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
