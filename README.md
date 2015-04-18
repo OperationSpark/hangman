@@ -22,7 +22,7 @@ But what is this thing that opened when we hit <kbd>F12</kbd>? It doesn't really
 
 What is important for us though, you can use the developer tools console to see any messages the developer of the web page added that a regular user won't see. This is very useful while creating web pages since you can write code that outputs messages to the console for you to understand what's going on in code that's not visible. Try writing a message to the console now. Type something like this into it
 
-```
+```js
 console.log("My name is George and I'm", 32, "years old");
 ```
 
@@ -32,7 +32,7 @@ Hit enter and you'll see it prints that message back.
 
 That's not terribly useful until we combine it with an application. Let's open up our bouncing box application for example. Inside the update function add the following line
 
-```
+```js
 console.log("the speed is currently", speed, "the position is", position);
 ```
 
@@ -89,5 +89,71 @@ When displaying current phrase
 ```
 
 Great, we just figured out most of hangman. Now let's translate that to something the computer will understand!
+
+Open up your website workspace and
+
+```bash
+os install hangman
+```
+
+Now open up the index.html file inside of the hangman folder, this is where you will be working today.
+
+1 - Create a Phrase
+-------------------
+
+Let's start really simple. In the Javascript Declare a variable called `phrase`, store any phrase you want inside of it, and output to the console.
+
+```js
+var phrase;
+phrase = "learn to code";
+console.log("The secret phrase is", phrase);
+```
+
+Save the file, run the application and view the message in the console.
+
+2 - Display the Phrase as dashes.
+---------------------------------
+
+Let's write some code to display the current phrase with dashes.
+
+```
+----- -- ----
+```
+
+*For this section we're going to add code inside the `displayCurrent` function.* Let's do a simplified version of our algorithm from above
+
+```
+for each letter in the phrase
+  if it is a space output a space
+  otherwise output a "-"
+```
+
+Remember how we told you that jQuery was a library that someone created to make it easy to work with web pages? We did the same thing for you to make it easy to create a hangman game. To do something with each letter you can do something like
+
+```js
+var currentPhrase = hangman.forEachCharacter(phrase, function(character) {
+    return "a";
+});
+console.log("current phrase is", currentPhrase);
+```
+
+Change the code inside of `displayCurrent` to say this and view the results in the console.
+
+But we can do more than that! We can use the `if` keyword on each character.
+
+```js
+var currentPhrase = hangman.forEachCharacter(phrase, function(character) {
+  if(character === " ") {
+    return "a";
+  } else {
+    return "b";
+  }
+});
+console.log("current phrase is", currentPhrase);
+```
+
+What will this print? Modify the code so that if it's a space it outputs a space, otherwise it outputs a dash.
+
+In order to see what functions are available type `hangman` into the console and hit enter.
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
