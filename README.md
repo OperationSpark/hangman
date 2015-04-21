@@ -143,7 +143,7 @@ But we can do more than that! We can use the `if` keyword on each character.
 
 ```js
 displayCurrent = function() {
-	var currentPhrase = hangman.forEachCharacter(phrase, function(character) {
+	var currentPhrase = hangman.forEachCharacter(secretPhrase, function(character) {
 	  if(character === " ") {
 	    return "a";
 	  } else {
@@ -154,7 +154,7 @@ displayCurrent = function() {
 }
 ```
 
-What will this print? Modify the code so that if it's a space it outputs a space, otherwise it outputs a dash.
+What will this print? Modify the code so that if it's a space it outputs a space, otherwise it outputs a dash. Try this function out by typing `displayCurrent()` into the console.
 
 In order to see what functions are available type `hangman` into the console and hit enter. What functions are available?
 
@@ -192,10 +192,9 @@ Of course, we *always* want that to display the current state when we guess, typ
 
 You'll notice that we're still not getting the current phrase displayed the way that we want - the guessed letters are not displaying instead of dashes. That's because we haven't done that yet! Let's modify `displayCurrent` to show the letters that have been guessed. To do that we can use the `hasBeenGuessed` function from our library
 
-
 ```js
 displayCurrent = function() {
-	var currentPhrase = hangman.forEachCharacter(phrase, function(character) {
+	var currentPhrase = hangman.forEachCharacter(secretPhrase, function(character) {
 	  if(character === " ") {
 	    return " ";
 	  } else if( hangman.hasBeenGuessed(character) ){
@@ -224,7 +223,6 @@ But what's the fun of playing a game if you can't tell when youve won? How can w
 
 Well, if you think about it, we have the code for that already. They win when there are no dashes in the displayed phrase, and we control whether when we output a dash with the code `return "-";`. So let's just check if the code to call the dash ever gets called
 
-
 ```js
 displayCurrent = function() {
 
@@ -237,7 +235,7 @@ displayCurrent = function() {
 	   	return character;
 	  } else {
 
-		numberOfDashes = numberOfDashes + `;
+		numberOfDashes = numberOfDashes + 1;
 
 		return "-";
 	  }
