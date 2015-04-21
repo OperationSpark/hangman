@@ -101,12 +101,12 @@ Now open up the index.html file inside of the hangman folder, this is where you 
 1 - Create a phrase
 -------------------
 
-Let's start really simple. In the Javascript Declare a variable called `phrase`, store any phrase you want inside of it, and output to the console.
+Let's start really simple. In the Javascript Declare a variable called `secretPhrase`, store any phrase you want inside of it, and output to the console.
 
 ```js
-var phrase;
-phrase = "learn to code";
-console.log("The secret phrase is", phrase);
+var secretPhrase;
+secretPhrase = "learn to code";
+console.log("The secret phrase is", secretPhrase);
 ```
 
 Save the file, run the application and view the message in the console.
@@ -131,7 +131,7 @@ for each letter in the phrase
 Remember how we told you that jQuery was a library that someone created to make it easy to work with web pages? We did the same thing for you to make it easy to create a hangman game. To do something with each letter you can do something like
 
 ```js
-var currentPhrase = hangman.forEachCharacter(phrase, function(character) {
+var currentPhrase = hangman.forEachCharacter(secretPhrase, function(character) {
     return "a";
 });
 console.log("current phrase is", currentPhrase);
@@ -142,24 +142,116 @@ Change the code inside of `displayCurrent` to say this and view the results in t
 But we can do more than that! We can use the `if` keyword on each character.
 
 ```js
-var currentPhrase = hangman.forEachCharacter(phrase, function(character) {
-  if(character === " ") {
-    return "a";
-  } else {
-    return "b";
-  }
-});
-console.log("current phrase is", currentPhrase);
+displayCurrent = function() {
+	var currentPhrase = hangman.forEachCharacter(phrase, function(character) {
+	  if(character === " ") {
+	    return "a";
+	  } else {
+	    return "b";
+	  }
+	});
+	console.log("Current phrase is:", currentPhrase);
+}
 ```
 
 What will this print? Modify the code so that if it's a space it outputs a space, otherwise it outputs a dash.
 
-In order to see what functions are available type `hangman` into the console and hit enter.
+In order to see what functions are available type `hangman` into the console and hit enter. What functions are available?
 
-3 - Create and export a `guess()` function
-------------------------------------------
+3 - Implement the `guess` function
+----------------------------------
 
-4 - Detect when they've won
+Remember how in that lame little RPG we played above you could move around by typing commands like `north()`, `south()`, `east()`, and `west()` into the console? Those are just functions that someone created, just like `rect()`, `text()`, and `drawWinston()` in your [Khan Academy homework](https://www.khanacademy.org/computing/computer-programming/programming/functions/p/function-parameters). Functions are a great way for someone to interact with your program.
+
+So let's think of the function that we want and what it should do. It would be great if the user could type into the console
+
+```js
+  guess('o');
+```
+
+and have the application display the current status of their phrase
+
+```
+  Current phrase is: l-ar- -o cod-
+```
+
+That would be cool. You notice that we already created a `guess` function for you. Let's edit it to take one parameter for the characterGuessed. Also we need to record the guess somewhere. We will do that by calling the `recordGuess` function in our `hangman` library
+
+```js
+  guess = function(characterGuessed) {
+      hangman.recordGuess(characterGuessed);
+  }
+```
+
+Run your application. You note that you can make guesses as we wanted but it doesn't display the current phrase status. We can do that by typing `displayCurrent()` into the console.
+
+Of course, we *always* want that to display the current state when we guess, typing it over and over again is annoying. Modify the `guess` function so that it always calls `displayCurrent()` after calling `hangman.recordGuess`.
+
+4 - Display the phrase with guessed letters visible
+---------------------------------------------------
+
+You'll notice that we're still not getting the current phrase displayed the way that we want - the guessed letters are not displaying instead of dashes. That's because we haven't done that yet! Let's modify `displayCurrent` to show the letters that have been guessed. To do that we can use the `hasBeenGuessed` function from our library
+
+
+```js
+displayCurrent = function() {
+	var currentPhrase = hangman.forEachCharacter(phrase, function(character) {
+	  if(character === " ") {
+	    return " ";
+	  } else if( hangman.hasBeenGuessed(character) ){
+
+	   	// What goes here?
+
+
+	  } else {
+		return "-";
+	  }
+	});
+	console.log("Current phrase is:", currentPhrase);
+}
+```
+
+Change your code to the above and modify the `// What goes here?` line appropriately.
+
+Run your application You should be able to play hangman!
+
+Try it out with your partner. Change the secret phrase and let your partner play.
+
+5 - Detect when they've won
 ---------------------------
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+But what's the fun of playing a game if you can't tell when youve won? How can we figure that out?
+
+Well, if you think about it, we have the code for that already. They win when there are no dashes in the displayed phrase, and we control whether when we output a dash with the code `return "-";`. So let's just check if the code to call the dash ever gets called
+
+
+```js
+displayCurrent = function() {
+
+	var numberOfDashes = 0;
+
+	var currentPhrase = hangman.forEachCharacter(phrase, function(character) {
+	  if(character === " ") {
+	    return " ";
+	  } else if( hangman.hasBeenGuessed(character) ){
+	   	return character;
+	  } else {
+
+		numberOfDashes = numberOfDashes + `;
+
+		return "-";
+	  }
+	});
+	console.log("Current phrase is:", currentPhrase);
+}
+```
+
+now you can check if the current phrase had any dashes by checking
+
+```js
+	if( numberOfDashes === 0 ) {
+		//Then they won
+	}
+```
+
+Change the `displayCurrent` function to add this check at the end. Output *"Congratulations, you won"* if they won. Also, call `hangman.cornify()` for a surprise!

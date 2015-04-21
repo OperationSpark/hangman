@@ -23,6 +23,7 @@
 				throw Error("recordGuess function takes one argument which must be a single character. Example: recordGuess(\"a\")")
 			}
 			charactersGuessed.push(character);
+			console.log("Guessed so far:", charactersGuessed);
 		}
 		toArray = function(obj) {
 			return Array.prototype.slice.call(obj)
@@ -74,7 +75,7 @@
 		}
 		cornify = function(times) {
       if(times === undefined) {
-        times = 1;
+        times = 5;
       }
 			for(var counter = 0; counter < times; counter += 1) {
 					cornifyOnce();
