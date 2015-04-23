@@ -272,7 +272,7 @@ Well we currently have ProcessingJs set up on this page! Don't believe me? Try o
 	hangman.draw.rect(10, 30, 100, 200);
 ```
 
-So that's one tiny difference - before you had all your functions that you could just use `rect`, `background`, `fill`, `storke`, etc. All functions that you can just type and have them work are called *global* functions. On this version these functions are no longer *global* and live inside the `hangman.draw` *object*. You don't have to understand what that means for now. Just know that to call your functions you have to prefix them with `hangman.draw.`. Let's make the background visible.
+So that's one tiny difference - before you had all your functions that you could just use `rect`, `background`, `fill`, `stroke`, etc. All functions that you can just type and have them work are called *global* functions. On this version these functions are no longer *global* and live inside the `hangman.draw` *object*. You don't have to understand what that means for now. Just know that to call your functions you have to prefix them with `hangman.draw`. Let's make the background visible.
 
 
 ```js
@@ -316,7 +316,7 @@ Just remember that this is doing two things at the same time.
 
 So now we should be able to do `drawHangman()` in the console and it should print out `"drawing hangman"`, right? Go ahead and try this.
 
-It didn't work, right? That's because `var drawHangman` is *inside of a function* (right at the very top of our code on the line after the `&lt;script&gt;` tag). So `drawHangman` is not *global*, and we can only rever to *global* variables in the console. This is actually a good thing. If everything was *global* then any part of our program would be able to overwrite and change any other part of the program. When programming we want as few things to be *global* as possible. Except of course when we know what we're doing and want to make something *global* on purpose. So how do we do that? Find the following bit of code toward the bottom
+It didn't work, right? That's because `var drawHangman` is *inside of a function* (right at the very top of our code on the line after the `&lt;script&gt;` tag). So `drawHangman` is not *global*, and we can only refer to *global* variables in the console. This is actually a good thing. If everything was *global* then any part of our program would be able to overwrite and change any other part of the program. When programming we want as few things to be *global* as possible. Except of course when we know what we're doing and want to make something *global* on purpose. So how do we do that? Find the following bit of code toward the bottom
 
 ```js
 	// Export variables you want available in the console here
@@ -328,7 +328,7 @@ This *exposes* both the `displayCurrent` and `guess` functions *globally* by add
 
 You should now be able to run `drawHangman()` in the console and get it to output the "drawing hangman" message.
 
-Add code to the `drawHangman` function to repplace the lines containing "TODO". Don't forget to save, refresh, and type `drawHangman()` in the console to see it redraw as you work.
+Add code to the `drawHangman` function to replace the lines containing "TODO". Don't forget to save, refresh, and type `drawHangman()` in the console to see it redraw as you work.
 
 8 - Draw Hangman In Parts
 -------------------------
@@ -344,7 +344,7 @@ We can label the jars. One will be labeled `drawNext`, another will be labeled `
 * `drawHead` - Draw a circle. Move the paper from the `drawBody` jar, to the `drawNext` jar.
 * `drawBody` - Starting at the bottom of the circle draw a line for the body. Move the paper from the `drawLeftArm` jar to the `drawNext` jar.
 * `drawLeftArm` - Draw a line for the left arm at an angle from the body. Move the paper from the `drawRightArm` jar to the `drawNext` jar.
-* `drawRightAram` - Draw a line for the right arm at an angle from the body. Move the paper from the `drawLeftLeg` jar to the `drawNext` jar.
+* `drawRightArm` - Draw a line for the right arm at an angle from the body. Move the paper from the `drawLeftLeg` jar to the `drawNext` jar.
 * `drawLeftLeg` - Draw a line for the left leg at a downward angle from the body. Move the paper from the `drawRightLeg` jar to the `drawNext` jar.
 * `drawRightLeg` - Draw a line for the right leg at a downward angle from the body. Empty the `drawNext` jar.
 
