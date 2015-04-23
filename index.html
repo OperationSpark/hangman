@@ -20,9 +20,43 @@
 		var displayCurrent;
 		var guess;
 		var secretPhrase;
+		var drawNext;
+
+		var drawHead = function() {
+			hangman.draw.ellipse(300, 100, 50, 50);
+			drawNext = drawBody;
+		};
+		var drawBody = function() {
+			hangman.draw.line(300, 125, 300, 225);
+			drawNext = drawLeftArm;
+		};
+		var drawLeftArm = function() {
+			hangman.draw.line(300, 150, 250, 100);
+			drawNext = drawRightArm;
+		};
+		var drawRightArm = function() {
+			hangman.draw.line(300, 150, 350, 100);
+			drawNext = drawLeftLeg;
+		};
+		var drawLeftLeg = function() {
+			hangman.draw.line(300, 225, 250, 275);
+			drawNext = drawRightLeg;
+		};
+		var drawRightLeg = function() {
+			hangman.draw.line(300, 225, 350, 275);
+			drawNext =null;
+		};
+		var drawGallows = function() {
+			//Gallows 
+			hangman.draw.line(200, 25, 200, 400);
+			//Gallows crossbar
+			hangman.draw.line(200, 25, 300, 25);
+			//Rope
+			hangman.draw.line(300, 25, 300, 75);
+		}
 
 		secretPhrase = "learn to code";
-		console.log("The secret phrase is", secretPhrase);
+		drawNext = drawHead;
 
 		displayCurrent = function() {
 
@@ -49,61 +83,18 @@
 			hangman.recordGuess(characterGuessed);
 			displayCurrent();
 			if(secretPhrase.indexOf(characterGuessed) === -1) {
-				wrongGuess();
+				if(drawNext) {
+					drawNext();
+				}
 			}
 		};
 
 		displayCurrent();
+		drawGallows();
 
 		// Export variables you want available in the console here
 		window.displayCurrent = displayCurrent;
 		window.guess = guess;
-	}).call();
-	</script>
-	<script>
-	(function() {
-		'use strict'
-
-		var drawHead = function() {
-			hangman.draw.ellipse(300, 100, 50, 50);
-			return drawBody;
-		};
-		var drawBody = function() {
-			hangman.draw.line(300, 125, 300, 225);
-			return drawLeftArm;
-		};
-		var drawLeftArm = function() {
-			hangman.draw.line(300, 150, 250, 100);
-			return drawRightArm;
-		};
-		var drawRightArm = function() {
-			hangman.draw.line(300, 150, 350, 100);
-			return drawLeftLeg;
-		};
-		var drawLeftLeg = function() {
-			hangman.draw.line(300, 225, 250, 275);
-			return drawRightLeg;
-		};
-		var drawRightLeg = function() {
-			hangman.draw.line(300, 225, 350, 275);
-			return null;
-		};
-
-		//Gallows 
-		hangman.draw.line(200, 25, 200, 400);
-		//Gallows crossbar
-		hangman.draw.line(200, 25, 300, 25);
-		//Rope
-		hangman.draw.line(300, 25, 300, 75);
-
-		var drawNext = drawHead;
-		var wrongGuess = function() {
-			if(drawNext) {
-				drawNext = drawNext();
-			}
-		}
-
-		window.wrongGuess = wrongGuess;
 	}).call();
 	</script>
 </body>
