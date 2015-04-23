@@ -228,7 +228,7 @@ displayCurrent = function() {
 
 	var numberOfDashes = 0;
 
-	var currentPhrase = hangman.forEachCharacter(phrase, function(character) {
+	var currentPhrase = hangman.forEachCharacter(secretPhrase, function(character) {
 	  if(character === " ") {
 	    return " ";
 	  } else if( hangman.hasBeenGuessed(character) ){
