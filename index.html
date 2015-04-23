@@ -44,7 +44,7 @@
 		};
 		var drawRightLeg = function() {
 			hangman.draw.line(300, 225, 350, 275);
-			drawNext =null;
+			drawNext = null;
 		};
 		var drawGallows = function() {
 			//Gallows 
@@ -53,6 +53,13 @@
 			hangman.draw.line(200, 25, 300, 25);
 			//Rope
 			hangman.draw.line(300, 25, 300, 75);
+		}
+
+		var drawHangman = function() {
+			console.log("drawing hangman");
+			while(drawNext !== null) {
+				drawNext();
+			}
 		}
 
 		secretPhrase = "learn to code";
@@ -95,6 +102,7 @@
 		// Export variables you want available in the console here
 		window.displayCurrent = displayCurrent;
 		window.guess = guess;
+		window.drawHangman = drawHangman;
 	}).call();
 	</script>
 </body>

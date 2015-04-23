@@ -253,3 +253,240 @@ now you can check if the current phrase had any dashes by checking
 ```
 
 Change the `displayCurrent` function to add this check at the end. Output *"Congratulations, you won"* if they won. Also, call `hangman.cornify()` for a surprise!
+
+--------------------------------------------------------------------
+
+6 - Let's Draw Things
+----------------------
+
+Do you remember your [Khan Academy homework](https://www.khanacademy.org/computing/computer-programming/programming)? You could draw things using [ProcessingJs](http://processingjs.org/reference/) like this
+
+```js
+	rect(10, 30, 100, 200);
+	ellipse(50, 20, 50, 70);
+```
+
+Well we currently have ProcessingJs set up on this page! Don't believe me? Try opening up your console and typing in;
+
+```js
+	hangman.draw.rect(10, 30, 100, 200);
+```
+
+So that's one tiny difference - before you had all your functions that you could just use `rect`, `background`, `fill`, `storke`, etc. All functions that you can just type and have them work are called *global* functions. On this version these functions are no longer *global* and live inside the `hangman.draw` *object*. You don't have to understand what that means for now. Just know that to call your functions you have to prefix them with `hangman.draw.`. Let's make the background visible.
+
+
+```js
+	hangman.draw.background(50, 50, 50);
+```
+
+
+In Khan Academy your canvas was 400x400 pixels. It's not here. Find out what the size of it is.
+
+Play around with the console and processingJs. See if you can draw a stick figure.
+
+![Stick Figure](http://content.screencast.com/users/togakangaroo/folders/Jing/media/7c449183-6cef-4652-b1f9-5e54fc7c9bec/2015-04-23_1322.png)
+
+7 - Create a function to Draw a Hangman 
+---------------------------------------
+
+So now that you've figured that out we are going to create a function to draw a hangman. Inside your javascript code let's create a new function. Create this right next to where you *define the implementation of* `displayCurrent`.
+
+```js
+	var drawHangman;
+	drawHangman = function() {
+		console.log("drawing hangman");
+		// TODO: draw head
+		// TODO: draw body
+		// TODO: draw arms
+		// TODO: draw legs
+	};
+	displayCurrent = function() {
+		...
+```
+
+I think you've all figured out by now that we can declare the variable `drawHangman` and assign it at the same time right? Feel free to do that
+
+```js
+	var drawHangman = function() {
+		...
+	};
+```
+
+Just remember that this is doing two things at the same time.
+
+So now we should be able to do `drawHangman()` in the console and it should print out `"drawing hangman"`, right? Go ahead and try this.
+
+It didn't work, right? That's because `var drawHangman` is *inside of a function* (right at the very top of our code on the line after the `&lt;script&gt;` tag). So `drawHangman` is not *global*, and we can only rever to *global* variables in the console. This is actually a good thing. If everything was *global* then any part of our program would be able to overwrite and change any other part of the program. When programming we want as few things to be *global* as possible. Except of course when we know what we're doing and want to make something *global* on purpose. So how do we do that? Find the following bit of code toward the bottom
+
+```js
+	// Export variables you want available in the console here
+	window.displayCurrent = displayCurrent;
+	window.guess = guess;
+```
+
+This *exposes* both the `displayCurrent` and `guess` functions *globally* by adding them to the special `window` object. Go ahead and expose your `drawHangman` function as well.
+
+You should now be able to run `drawHangman()` in the console and get it to output the "drawing hangman" message.
+
+Add code to the `drawHangman` function to repplace the lines containing "TODO". Don't forget to save, refresh, and type `drawHangman()` in the console to see it redraw as you work.
+
+8 - Draw Hangman In Parts
+-------------------------
+
+Of course that's not how hangman works. It draws the parts of a hangman one at a time, right? Not all at once. So how do we do that? What would be really nice, is if we had a function called `drawNext`. And the first time you call it would draw the head, the second time the body, then an arm, another arm, a leg, and finally the last leg. That would be sweet, but how to do that.
+
+Well consider how we might do that with things in the real world. In the real world we might have a whiteboard and a bunch of jars.
+
+![jars](http://i.c-b.co/is/image/Crate/OvalClampTopHerbJarS12OT7/$web_zoom$&/1308302306/oval-spice-herb-jars.jpg)
+
+We can label the jars. One will be labeled `drawNext`, another will be labeled `drawHead`, another will be labeled `drawLeftArm` and so on. And inside each jar we have a piece of paper. Which say something like this.
+
+* `drawHead` - Draw a circle. Move the paper from the `drawBody` jar, to the `drawNext` jar.
+* `drawBody` - Starting at the bottom of the circle draw a line for the body. Move the paper from the `drawLeftArm` jar to the `drawNext` jar.
+* `drawLeftArm` - Draw a line for the left arm at an angle from the body. Move the paper from the `drawRightArm` jar to the `drawNext` jar.
+* `drawRightAram` - Draw a line for the right arm at an angle from the body. Move the paper from the `drawLeftLeg` jar to the `drawNext` jar.
+* `drawLeftLeg` - Draw a line for the left leg at a downward angle from the body. Move the paper from the `drawRightLeg` jar to the `drawNext` jar.
+* `drawRightLeg` - Draw a line for the right leg at a downward angle from the body. Empty the `drawNext` jar.
+
+To start with, we simply move the paper from `drawHead` into the `drawNext` jar. What happens when we open the `drawNext` jar, take out the paper, and follow the instructions? What happens when we do that again? And again?
+
+Great, we know what we want to do, now let's translate that to code!
+
+As before, in our analogy a labeled jar relates to a variable and a piece of paper with instruction relates to functions. So we're going to need seven variables and six functions. Put this right after your `drawHangman` function.
+
+```js
+	var drawNext;
+
+	var drawHead = function() {
+		//TODO - draw head
+		drawNext = drawBody;
+	};
+	var drawBody = function() {
+		//TODO - draw body
+		drawNext = drawLeftArm;
+	};
+	var drawLeftArm = function() {
+		//TODO - draw left arm
+		drawNext = drawRightArm;
+	};
+	var drawRightArm = function() {
+		//TODO - draw right arm
+		drawNext = drawLeftLeg;
+	};
+	var drawLeftLeg = function() {
+		//TODO - draw left leg
+		drawNext = drawRightLeg;
+	};
+	var drawRightLeg = function() {
+		//TODO - draw right leg
+		drawNext = null;
+	};
+``` 
+
+Note that at end of the chain we assign to `drawNext` the special value `null`. This is one of several alternatives we have to indicate "there's nothing else to do". We'll discuss some issues with that in a moment.
+
+But for now, let's go ahead and replace the "TODO" lines above with real code. Move code out of your `drawHangman` function into these functions until the `drawHangman` function is empty.
+
+Now we do the initial part where we move the paper from `drawHead` into the `drawNext` variable. Toward the bottom of your script, just before you call `displayCurrent()` add
+
+```js
+	drawNext = drawHead;
+```
+
+One thing you must always keep in mind in programming: once you write your code, how are you going to test that it is doing the right thing? We will teach you many techniques for this, but the simplest one is just to run your code and see that it does what you expected it to do. Unfortunately, simply making `drawNext` *global* 
+
+```js
+   window.drawNext = drawNext;
+```
+
+won't work. This is because you can think of `window.drawNext` as it's own jar. And nothing ever puts new things in it! So it's going to contain the instructions for `drawHead` (because that's what's in `drawNext` when this code runs) and it will run those instructions over and over again.
+
+Instead let's repurpose our drawHangman function and make it draw the entire hangman but using our `drawNext` function. For this we will use some of the stuff we learned in our homework about `while loops`. **Replace** the code inside `drawHangman` with
+
+```js
+	var drawHangman = function() {
+		console.log("drawing hangman");
+		// TODO: while drawNext is not null
+		// 		TODO: call the function in the drawNext variable
+	}
+```
+
+Fill out the TODO lines. 
+
+**HINT:** To figure out how to check if one value is equal to another try typing the following line-by-line into your console. See if you can predict what it will output
+
+```js
+	var a = 123;
+	a === 123;
+	a === 456;
+	a !== 123;
+	a !== 456;
+	a === null;
+	a !== null;
+
+	a = null;
+	a === null;
+	a !=== null;
+```
+
+Before moving on, make sure that you can run `drawHangman()` in the console and it will draw the full hangman by calling the `drawNext` function over and over.
+
+9 - Draw Next Part When We Guess Wrong
+--------------------------------------
+
+So we can always draw the next part of the hangman by calling `drawNext()`. That's great! So all we need to do is know when the user has guessed incorrectly and call `drawNext()`. But how can we tell if the user guessed incorrectly? The `hangman` library does not seem to have anything to help us there. Fortunately we can leanr how to check ourselves. Modify the code for the `guess` function so that it looks like this
+
+```js
+	guess = function(characterGuessed) {
+		hangman.recordGuess(characterGuessed);
+		displayCurrent();
+		// TODO: If secretPhrase does not contain characterGuessed
+		// 			TODO: call drawNext()
+	};
+```
+
+Remember, that we refer to `secretPhrase` as a *string*. How can we know if a character is in a string? Well a good idea might be to [search Google for *"javascript check if character is in a string"*](https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&es_th=1&ie=UTF-8#q=javascript%20check%20if%20character%20is%20in%20a%20string&es_th=1). You will find some examples here. Another way is to check some code that we know already does something similar. For example the `hangman.hasBeenGuessed` function. You can look inside `hangman-utils.js`. There will be a lot of unfamiliar things here. See if you can find the part that declares `hasBeenGuessed`, the last line preforms the check to see if the character passed in is one of the characters that has been guessed. Play around in the console to figure this out
+
+```js
+	var phrase = "learn code";
+```
+
+Figure out the code to check the letter `r` is in the phrase (it should output `true` or `false`). What if the letter we're checking for is `z`?
+
+**HINT:** It has to do with the *index* of the characer in the string. As we learned in the homework quiz, the *index* of the letter `c` in the string "learn code" is 6. What would the index be for `z`?
+
+You can now play hangman and watch the stick figure draw.
+
+**BONUS:** You might notice that if you've already lost and guess the wrong letter one more time you get a big read `ReferenceError` in the console. This is because once you've lost `drawNext` is `null`. `null` is not a function and therefore you get an error when you try to call it with `drawNext`. Fix this bug by checking that `drawNext` is not null before calling it.
+
+10 - Draw the Gallows
+--------------------------------------
+
+Ok, one last thing. I believe the game is called **hangman**, not **stick figure**. It's morbid, but I guess we should draw a gallows.
+
+Create a function called `drawGallows`. Inside of it draw the gallows, and call the function when the application starts (right after you call `displayCurrent()` at the bottom).
+
+When the application starts it should look like this
+
+![empty gallows](http://content.screencast.com/users/togakangaroo/folders/Jing/media/81ed672a-cf3b-49e2-9c5c-44076b2e4ab4/2015-04-23_1608.png)
+
+and when you unfortunately lose it should look like this
+
+![ummm...not-empty gallows](http://content.screencast.com/users/togakangaroo/folders/Jing/media/798cbe41-c91e-47f5-b58e-a17dd6168182/2015-04-23_1609.png)
+
+11 - Publish Your Website!
+--------------------------
+
+Now that your done, we just need to send changes to bitbucket. Run the following in the Cloud9 command line to make sure you have the latest version of the opspark utility
+
+```bash
+	npm install -g opspark
+```
+
+Follow the instructions and finally publish your changes
+
+```bash
+	os publish
+```
+
+Your hangman game should now be on your website!
